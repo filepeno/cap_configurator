@@ -38,7 +38,6 @@ function toggleOption(event) {
     console.log(`Feature ${feature} is turned on!`);
     features[feature] = true;
     highlightFeature(target);
-    toggleFeatureInPreview(features[feature], feature);
 
     // TODO: More code
   } else {
@@ -46,10 +45,11 @@ function toggleOption(event) {
     console.log(`Feature ${feature} is turned off!`);
     features[feature] = false;
     unhighlightFeature(target);
-    toggleFeatureInPreview(features[feature], feature);
 
     // TODO: More code
   }
+  toggleFeatureInPreview(features[feature], feature);
+  toggleSelectedFeature(features[feature], feature);
 }
 
 function highlightFeature(target) {
@@ -69,8 +69,22 @@ function toggleFeatureInPreview(chosen, feature) {
   }
 }
 
+function toggleSelectedFeature(chosen, feature) {
+  const parent = document.querySelector("div#selected ul");
+  console.log(parent);
+  let featureLi;
+  if (chosen === true) {
+    featureLi = createFeatureElement(feature);
+    parent.appendChild(featureLi);
+  } else {
+    featureLi = document.querySelector(`div#selected ul li[data-feature=${feature}]`);
+    parent.removeChild(featureLi);
+  }
+}
+
 // Create featureElement to be appended to #selected ul - could have used a <template> instead
 function createFeatureElement(feature) {
+  console.log(feature);
   const li = document.createElement("li");
   li.dataset.feature = feature;
 
