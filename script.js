@@ -73,9 +73,10 @@ function toggleSelectedFeature(chosen, feature) {
   if (chosen === true) {
     featureLi = createFeatureElement(feature);
     parent.appendChild(featureLi);
+    animateFeatureToList(chosen, feature, featureLi);
   } else {
     featureLi = document.querySelector(`div#selected ul li[data-feature=${feature}]`);
-    parent.removeChild(featureLi);
+    animateFeatureToList(chosen, feature, featureLi, parent);
   }
 }
 
@@ -95,4 +96,45 @@ function createFeatureElement(feature) {
 
 function capitalize(text) {
   return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+}
+
+function animateFeatureToList(chosen, feature, featureLi, parent) {
+  const firstFrame = document.querySelector(`div#options [data-feature=${feature}] img`).getBoundingClientRect();
+  const lastFrame = featureLi.getBoundingClientRect();
+
+  console.log("firstFrame ", firstFrame);
+  console.log("lastFrame ", lastFrame);
+
+  const deltaX = firstFrame.left - lastFrame.left;
+  console.log(deltaX);
+  const deltaY = firstFrame.top - lastFrame.top;
+  console.log(deltaY);
+  const deltaW = firstFrame.width / lastFrame.width;
+  const deltaH = firstFrame.height / lastFrame.height;
+  const animation = featureLi.animate(
+    [
+      {
+        transformOrigin: "top left",
+        transform: `translateX(${deltaX}px) 
+      translateY(${deltaY}px) 
+      scaleX(${deltaW}) 
+      scaleY(${deltaH})`,
+      },
+      {
+        transformOrigin: "top left",
+        transform: "none",
+      },
+    ],
+    {
+      duration: 300,
+      easing: "ease-in-out",
+    }
+  );
+  if (chosen === false) {
+    animation.reverse();
+    animation.onfinish = removeLi;
+    function removeLi() {
+      parent.removeChild(featureLi);
+    }
+  }
 }
