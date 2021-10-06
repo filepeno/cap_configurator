@@ -24,13 +24,11 @@ function toggleOption(event) {
   // TODO: Toggle feature in "model"
 
   // If feature is (now) turned on:
-  // - un-hide the feature-layer(s) in the #product-preview;
   // - create featureElement and append to #selected ul
   // - create FLIP-animation to animate featureElement from img in target, to
   //   its intended position. Do it with normal animation or transition class!
 
   // Else - if the feature (became) turned off:
-  // - hide the feature-layer(s) in the #product-preview
   // - find the existing featureElement in #selected ul
   // - create FLIP-animation to animate featureElement to img in target
   // - when animation is complete, remove featureElement from the DOM
@@ -40,6 +38,7 @@ function toggleOption(event) {
     console.log(`Feature ${feature} is turned on!`);
     features[feature] = true;
     highlightFeature(target);
+    toggleFeatureInPreview(features[feature], feature);
 
     // TODO: More code
   } else {
@@ -47,6 +46,7 @@ function toggleOption(event) {
     console.log(`Feature ${feature} is turned off!`);
     features[feature] = false;
     unhighlightFeature(target);
+    toggleFeatureInPreview(features[feature], feature);
 
     // TODO: More code
   }
@@ -58,6 +58,15 @@ function highlightFeature(target) {
 
 function unhighlightFeature(target) {
   target.classList.remove("chosen");
+}
+
+function toggleFeatureInPreview(chosen, feature) {
+  const featureElement = document.querySelector(`[data-feature=${feature}]`);
+  if (chosen === true) {
+    featureElement.classList.remove("hide");
+  } else {
+    featureElement.classList.add("hide");
+  }
 }
 
 // Create featureElement to be appended to #selected ul - could have used a <template> instead
