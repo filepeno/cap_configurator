@@ -24,12 +24,10 @@ function toggleOption(event) {
   // TODO: Toggle feature in "model"
 
   // If feature is (now) turned on:
-  // - create featureElement and append to #selected ul
   // - create FLIP-animation to animate featureElement from img in target, to
   //   its intended position. Do it with normal animation or transition class!
 
   // Else - if the feature (became) turned off:
-  // - find the existing featureElement in #selected ul
   // - create FLIP-animation to animate featureElement to img in target
   // - when animation is complete, remove featureElement from the DOM
 
@@ -71,7 +69,6 @@ function toggleFeatureInPreview(chosen, feature) {
 
 function toggleSelectedFeature(chosen, feature) {
   const parent = document.querySelector("div#selected ul");
-  console.log(parent);
   let featureLi;
   if (chosen === true) {
     featureLi = createFeatureElement(feature);
@@ -84,7 +81,6 @@ function toggleSelectedFeature(chosen, feature) {
 
 // Create featureElement to be appended to #selected ul - could have used a <template> instead
 function createFeatureElement(feature) {
-  console.log(feature);
   const li = document.createElement("li");
   li.dataset.feature = feature;
 
